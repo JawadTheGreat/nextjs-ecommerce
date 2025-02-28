@@ -18,7 +18,7 @@ const ListPage = () => {
           </button>
         </div>
         <div className="relative w-1/3">
-          <Image src="/woman.png" alt="" fill className="object-contain" />
+          <Image src="/shoe.png" alt="" fill className="object-contain" />
         </div>
       </div>
       {/* FILTER */}
