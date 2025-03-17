@@ -2,27 +2,32 @@ import { createClient, OAuthStrategy } from "@wix/sdk";
 import { products, collections } from "@wix/stores";
 import { cookies } from "next/headers";
 
-let refreshToken;
+export const wixClientServer = async () => {
+  let refreshToken;
 
-try {
-  const cookieStore = cookies();
+  try {
+    const cookieStore = await cookies();
 
-  refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value || "{}");
-} catch (e) {}
+    refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value || "{}");
+  } catch (e) {
+    console.log(e);
+  }
 
-export const wixClientServer = createClient({
-  modules: {
-    products,
-    collections,
-  },
-  auth: OAuthStrategy({
-    clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
-    tokens: {
-      refreshToken,
-      accessToken: {
-        value: "",
-        expiresAt: 0,
-      },
+  const wixClient = createClient({
+    modules: {
+      products,
+      collections,
     },
-  }),
-});
+    auth: OAuthStrategy({
+      clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
+      tokens: {
+        refreshToken,
+        accessToken: {
+          value: "",
+          expiresAt: 0,
+        },
+      },
+    }),
+  });
+  return wixClient;
+};
