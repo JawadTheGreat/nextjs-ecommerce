@@ -19,7 +19,6 @@ const ProductList = async ({
     .eq("collectionIds", categoryId)
     .limit(limit || PRODUCTS_PER_PAGE)
     .find();
-  console.log(res);
 
   return (
     <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
@@ -58,7 +57,7 @@ const ProductList = async ({
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
                   product.additionalInfoSections?.find(
-                    (section: any) => section.title === "shortDesc"
+                    (section) => section.title === "shortDesc"
                   )?.description || ""
                 ),
               }}
