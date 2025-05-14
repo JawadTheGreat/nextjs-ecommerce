@@ -7,9 +7,11 @@ import DOMPurify from "isomorphic-dompurify";
 const ProductList = async ({
   categoryId,
   limit,
+  searchParams,
 }: {
   categoryId: string;
   limit?: number;
+  searchParams?: { [key: string]: string | undefined };
 }) => {
   const PRODUCTS_PER_PAGE = 20;
 

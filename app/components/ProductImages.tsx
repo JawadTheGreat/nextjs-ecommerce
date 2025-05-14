@@ -2,33 +2,40 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const images = [
-  {
-    id: 1,
-    url: "https://images.pexels.com/photos/19651067/pexels-photo-19651067/free-photo-of-slice-of-cake-on-a-plate.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    id: 2,
-    url: "https://images.pexels.com/photos/5593497/pexels-photo-5593497.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    id: 3,
-    url: "https://images.pexels.com/photos/30406031/pexels-photo-30406031/free-photo-of-misty-winter-forest-road-in-thuringen.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    id: 4,
-    url: "https://images.pexels.com/photos/30862653/pexels-photo-30862653/free-photo-of-charming-village-scene-in-lopud-croatia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-];
+// const images = [
+//   {
+//     id: 1,
+//     url: "https://images.pexels.com/photos/19651067/pexels-photo-19651067/free-photo-of-slice-of-cake-on-a-plate.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+//   },
+//   {
+//     id: 2,
+//     url: "https://images.pexels.com/photos/5593497/pexels-photo-5593497.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+//   },
+//   {
+//     id: 3,
+//     url: "https://images.pexels.com/photos/30406031/pexels-photo-30406031/free-photo-of-misty-winter-forest-road-in-thuringen.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+//   },
+//   {
+//     id: 4,
+//     url: "https://images.pexels.com/photos/30862653/pexels-photo-30862653/free-photo-of-charming-village-scene-in-lopud-croatia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+//   },
+// ];
 
-const ProductImages = () => {
+interface ProductItem {
+  id: number;
+  image: {
+    url: string;
+  };
+}
+
+const ProductImages = ({ items }: { items: ProductItem[] }) => {
   const [index, setIndex] = useState(0);
 
   return (
     <div className="">
       <div className="h-[500px] relative">
         <Image
-          src={images[index].url}
+          src={items[index].image?.url}
           alt=""
           sizes="50vw"
           fill
@@ -36,14 +43,14 @@ const ProductImages = () => {
         />
       </div>
       <div className="flex justify-between gap-4 mt-8">
-        {images.map((img, i) => (
+        {items.map((item, i) => (
           <div
-            key={img.id}
+            key={item.id}
             onClick={() => setIndex(i)}
             className="w-1/4 h-32 relative gap-4 mt-8 cursor-pointer"
           >
             <Image
-              src={img.url}
+              src={item.image?.url}
               alt=""
               sizes="30vw"
               fill
