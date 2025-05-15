@@ -21,14 +21,14 @@ import { useState } from "react";
 //   },
 // ];
 
-interface ProductItem {
-  id: number;
+interface ProductImage {
+  _id: string;
   image: {
     url: string;
   };
 }
 
-const ProductImages = ({ items }: { items: ProductItem[] }) => {
+const ProductImages = ({ items }: { items: ProductImage[] }) => {
   const [index, setIndex] = useState(0);
 
   return (
@@ -45,7 +45,7 @@ const ProductImages = ({ items }: { items: ProductItem[] }) => {
       <div className="flex justify-between gap-4 mt-8">
         {items.map((item, i) => (
           <div
-            key={item.id}
+            key={item._id}
             onClick={() => setIndex(i)}
             className="w-1/4 h-32 relative gap-4 mt-8 cursor-pointer"
           >
