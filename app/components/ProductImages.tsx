@@ -22,7 +22,7 @@ import { useState } from "react";
 // ];
 
 interface ProductImage {
-  _id: string;
+  _id?: string;
   image: {
     url: string;
   };
@@ -35,7 +35,7 @@ const ProductImages = ({ items }: { items: ProductImage[] }) => {
     <div className="">
       <div className="h-[500px] relative">
         <Image
-          src={items[index].image?.url}
+          src={items[index].image?.url || "/product.png"}
           alt=""
           sizes="50vw"
           fill
@@ -50,7 +50,7 @@ const ProductImages = ({ items }: { items: ProductImage[] }) => {
             className="w-1/4 h-32 relative gap-4 mt-8 cursor-pointer"
           >
             <Image
-              src={item.image?.url}
+              src={item.image?.url || "/product.png"}
               alt=""
               sizes="30vw"
               fill

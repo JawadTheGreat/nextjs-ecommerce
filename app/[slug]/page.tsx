@@ -23,13 +23,17 @@ const SinglePage = async (props: Props) => {
   }
 
   const product = products.items[0];
+  const imageItems = (product.media?.items ?? []).map((item) => ({
+    _id: item._id,
+    image: { url: item.image?.url ?? "/product.png" },
+  }));
 
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
       {/* IMG */}
       <div className="w-full lg:w-1/2 lg:sticky top-20 h-max">
         <Suspense fallback={"loading..."}>
-          <ProductImages items={product.media?.items} />
+          <ProductImages items={imageItems} />
         </Suspense>
       </div>
       {/* TEXTS */}
