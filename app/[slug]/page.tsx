@@ -41,38 +41,29 @@ const SinglePage = async (props: Props) => {
         <h1 className="text-4xl font-medium">{product.name}</h1>
         <p className="text-gray-500">{product.description}</p>
         <div className="h-[2px] bg-gray-100" />
-        <div className="flex items-center gap-4">
-          <h3 className="text-xl text-gray-500 line-through">$59</h3>
-          <h2 className="font-medium text-2xl">$49</h2>
-        </div>
+        {product.priceData?.price === product.priceData?.discountedPrice ? (
+          <h2 className="font-medium text-2xl">${product.priceData?.price}</h2>
+        ) : (
+          <div className="flex items-center gap-4">
+            <h3 className="text-xl text-gray-500 line-through">
+              ${product.priceData?.price}
+            </h3>
+            <h2 className="font-medium text-2xl">
+              ${product.priceData?.discountedPrice}
+            </h2>
+          </div>
+        )}
+
         <div className="h-[2px] bg-gray-100" />
         <CustomizeProducts />
         <Add />
         <div className="h-[2px] bg-gray-100" />
-        <div className="text-sm">
-          <h4 className="font-medium mb-4">Title</h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quam
-            doloremque quis, modi enim eius velit debitis aspernatur nemo libero
-            sit quia. Cupiditate delectus quaerat eligendi quas eum nulla sint!
-          </p>
-        </div>
-        <div className="text-sm">
-          <h4 className="font-medium mb-4">Title</h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quam
-            doloremque quis, modi enim eius velit debitis aspernatur nemo libero
-            sit quia. Cupiditate delectus quaerat eligendi quas eum nulla sint!
-          </p>
-        </div>
-        <div className="text-sm">
-          <h4 className="font-medium mb-4">Title</h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quam
-            doloremque quis, modi enim eius velit debitis aspernatur nemo libero
-            sit quia. Cupiditate delectus quaerat eligendi quas eum nulla sint!
-          </p>
-        </div>
+        {product.additionalInfoSections?.map((section) => (
+          <div className="text-sm" key={section.title}>
+            <h4 className="font-medium mb-4">{section.title}</h4>
+            <p>{section.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
