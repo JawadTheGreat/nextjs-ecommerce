@@ -1,6 +1,7 @@
 "use client";
 
 import { products } from "@wix/stores";
+import { useState } from "react";
 
 const CustomizeProducts = ({
   productId,
@@ -11,13 +12,39 @@ const CustomizeProducts = ({
   variants: products.Variant[];
   productOptions: products.ProductOption[];
 }) => {
+  const [selectedOptions, setSelectedOptions] = useState<{
+    [key: string]: string;
+  }>({});
+
+  const handleOptionSelect = (optionType: string, choice: string) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [optionType]: choice,
+    }));
+  };
+
+  const isVarirantInStock = (choices: { [key: string]: string }) => {
+    return variants.some((variant) => {
+      const variantChoices = variant.choices;
+      if (!variantChoices) return false;
+      return Object.entries(choices).every(
+        ([key, value]) =>
+          variantChoices[key] === value && variant.stock?.inStock
+      );
+    });
+  };
+
   return (
     <div className="flex flex-col gap-6">
       {productOptions.map((option) => (
         <div className="flex flex-col gap-4" key={option.name}>
           <h4 className="font-medium">Choose a {option.name}</h4>
           {option.choices?.map((choice) => (
-            <div className="" key={choice.value}>
+            <div
+              className=""
+              key={choice.value}
+              onClick={() => handleOptionSelect(option.name!, choice.value!)}
+            >
               {choice.description}
             </div>
           ))}
