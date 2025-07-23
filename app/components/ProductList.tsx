@@ -16,7 +16,7 @@ const ProductList = async ({
   const PRODUCTS_PER_PAGE = 20;
 
   const wixClient = await wixClientServer();
-  const productQuery = wixClient.products
+  let productQuery = wixClient.products
     .queryProducts()
     .startsWith("name", searchParams?.name || "")
     .eq("collectionIds", categoryId)
@@ -27,21 +27,38 @@ const ProductList = async ({
     .gt("priceData.price", searchParams?.min || 0)
     .lt("priceData.price", searchParams?.max || 99999)
     .limit(limit || PRODUCTS_PER_PAGE);
-  // .find();
 
-  productQuery.ascending("price");
+  if (searchParams?.sort) {
+    const [sortType, sortBy] = searchParams.sort.split(" ");
+
+    if (sortType === "asc") {
+      productQuery = productQuery.ascending(sortBy as "price" | "lastUpdated");
+    }
+    if (sortType === "desc") {
+      productQuery = productQuery.descending(sortBy as "price" | "lastUpdated");
+    }
+  }
+
+  const res = await productQuery.find();
+
+  // my solution
+
+  // let res = await productQuery.find();
+
   // if (searchParams?.sort) {
   //   const [sortType, sortBy] = searchParams.sort.split(" ");
 
   //   if (sortType === "asc") {
-  //     productQuery.ascending("price");
+  //     res = await productQuery
+  //       .ascending(sortBy as "price" | "lastUpdated")
+  //       .find();
   //   }
   //   if (sortType === "desc") {
-  //     productQuery.descending("lastUpdated");
+  //     res = await productQuery
+  //       .descending(sortBy as "price" | "lastUpdated")
+  //       .find();
   //   }
   // }
-
-  const res = await productQuery.find();
 
   return (
     <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
