@@ -3,6 +3,7 @@ import Link from "next/link";
 import { wixClientServer } from "../lib/wixClientServer";
 import { products } from "@wix/stores";
 import DOMPurify from "isomorphic-dompurify";
+import Pagination from "./Pagination";
 
 const ProductList = async ({
   categoryId,
@@ -108,6 +109,11 @@ const ProductList = async ({
           </button>
         </Link>
       ))}
+      <Pagination
+        currentPage={res.currentPage || 0}
+        hasPrev={res.hasPrev()}
+        hasNext={res.hasNext()}
+      />
     </div>
   );
 };
