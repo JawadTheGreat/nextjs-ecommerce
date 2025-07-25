@@ -14,7 +14,7 @@ const ProductList = async ({
   limit?: number;
   searchParams?: { [key: string]: string | undefined };
 }) => {
-  const PRODUCTS_PER_PAGE = 20;
+  const PRODUCTS_PER_PAGE = 8;
 
   const wixClient = await wixClientServer();
   let productQuery = wixClient.products
@@ -27,7 +27,12 @@ const ProductList = async ({
     )
     .gt("priceData.price", searchParams?.min || 0)
     .lt("priceData.price", searchParams?.max || 99999)
-    .limit(limit || PRODUCTS_PER_PAGE);
+    .limit(limit || PRODUCTS_PER_PAGE)
+    .skip(
+      searchParams?.page
+        ? parseInt(searchParams.page) * (limit || PRODUCTS_PER_PAGE)
+        : 0
+    );
 
   if (searchParams?.sort) {
     const [sortType, sortBy] = searchParams.sort.split(" ");
